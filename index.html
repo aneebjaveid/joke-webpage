@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Joke Generator</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+            background: linear-gradient(135deg, #1e3c72, #2a5298);
+            color: #fff;
+            text-align: center;
+        }
+        .box {
+            background: rgba(255, 255, 255, 0.9);
+            padding: 20px;
+            border-radius: 12px;
+            box-shadow: 0px 10px 25px rgba(0, 0, 0, 0.3);
+            max-width: 500px;
+            width: 100%;
+            transition: transform 0.3s;
+        }
+        .box:hover {
+            transform: scale(1.03);
+        }
+        .joke-text {
+            font-size: 1.3em;
+            color: #333;
+            margin-bottom: 20px;
+        }
+        .btn {
+            background: #ff5733;
+            color: #fff;
+            border: none;
+            padding: 12px 20px;
+            font-size: 1.2em;
+            cursor: pointer;
+            border-radius: 8px;
+            transition: background 0.3s ease;
+        }
+        .btn:hover {
+            background: #c70039;
+        }
+    </style>
+</head>
+<body>
+    <div class="box">
+        <h1 style="color: #222;">Joke of the Moment</h1>
+        <p class="joke-text">Press the button to get a joke!</p>
+        <button class="btn" onclick="getJoke()">Generate Joke</button>
+    </div>
+
+    <script>
+        function getJoke() {
+            var xhr = new XMLHttpRequest();
+            xhr.open("GET", "https://official-joke-api.appspot.com/random_joke", true);
+            xhr.onreadystatechange = function () {
+                if (xhr.readyState === 4 && xhr.status === 200) {
+                    var jokeData = JSON.parse(xhr.responseText);
+                    var jokeText = document.querySelector(".joke-text");
+                    jokeText.innerHTML = `<strong>${jokeData.setup}</strong><br>${jokeData.punchline}`;
+                }
+            };
+            xhr.send();
+        }
+    </script>
+</body>
+</html>
